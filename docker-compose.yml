@@ -1,16 +1,17 @@
 services:
   jenkins:
     container_name: jenkins
-    image: olaola203/kevin-jenkins:latest
+    image: olaola203/kevin-jenkins:latest  # Docker Hub image
+    # image: kevin-jenkins  # Local build
     user: root
-    privileged: true # Cần thiết cho Docker-in-Docker
+    privileged: true  # Required for Docker-in-Docker
     ports:
-      - "9090:8080" # Port để truy cập vào Jenkins
-      - "50000:50000" # Port cho Jenkins agents
+      - "8080:8080"  # Jenkins web interface
+      - "50000:50000"  # Jenkins agents
     volumes:
       - ./jenkins_home:/var/jenkins_home
-      # Docker Socket cho Windows với Docker Desktop
+      # Docker socket for Windows with Docker Desktop
       - //var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped # Tự động khởi động lại container nếu nó crash
+    restart: unless-stopped  # Auto restart if container crashes
     environment:
       - DOCKER_HOST=unix:///var/run/docker.sock
