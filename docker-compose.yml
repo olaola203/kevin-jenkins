@@ -1,0 +1,16 @@
+services:
+  jenkins:
+    container_name: jenkins
+    image: olaola203/kevin-jenkins:latest
+    user: root
+    privileged: true # Cần thiết cho Docker-in-Docker
+    ports:
+      - "9090:8080" # Port để truy cập vào Jenkins
+      - "50000:50000" # Port cho Jenkins agents
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      # Docker Socket cho Windows với Docker Desktop
+      - //var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped # Tự động khởi động lại container nếu nó crash
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
